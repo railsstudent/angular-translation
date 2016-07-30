@@ -54,22 +54,27 @@ class PhraseController {
     }
 
     initPhrases() {
-      this.assignPhraseIcon();
+      this.assignAdditionalProperty();
       this.visiblePhrases = {};
       this.hiddenPhrases = {};
       this.constructPhrases('visible', this.visiblePhrases);
       this.constructPhrases('hidden', this.hiddenPhrases);
       this.updateCount(this.visiblePhrases, this.hiddenPhrases);
       this.filterByStatus();
+      this.checkAll = false;
+      this.disableButtons = true;
+      this.numSelectedPhrases = 0;
+      this.unit = 'phrase';
     }
 
-    assignPhraseIcon() {
+    assignAdditionalProperty() {
       _.forEach(this.phrases, (o) => {
         if (o.status == 'visible') {
           o.icon = 'icon-eye-open';
         } else if (o.status == 'hidden') {
           o.icon = 'icon-eye-close';
         }
+        o.selected = false;
       });
     }
 
@@ -149,6 +154,32 @@ class PhraseController {
           return o.id;
         });
       }
+    }
+
+    changeChecked() {
+        let ref = this;
+        ref.numSelectedPhrases = 0;
+        console.log('checkAll: ' + ref.checkAll);
+        _.forEach(ref.filteredPhrases, (o) => {
+           o.selected = ref.checkAll;
+           if (o.selected == true) {
+              ref.numSelectedPhrases = ref.numSelectedPhrases + 1;
+           }
+        });
+        ref.disableButtons = !ref.checkAll;
+        ref.unit = (ref.numSelectedPhrases <= 1 ? 'phrase' : 'phrases');
+    }
+
+    enableButtons() {
+      // count number of selected rows
+      let ref = this;
+      let count = 0;
+      _.forEach(ref.filteredPhrases, (o) => {
+         if (o.selected == true) {
+           count = count + 1;
+         }
+      });
+      ref.disableButtons = (count <= 0);
     }
 }
 

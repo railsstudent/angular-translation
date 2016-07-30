@@ -65,22 +65,24 @@
                     <div class='span9'>
                         <input class='selectAllLangs checkbox-lang tt' data-original-title='Select all'
                                data-placement='top' data-toggle='tooltip' title='' type='checkbox'
-                               value=''>
-                        <button class='btn btn-download-multiple btn-narrow disabled tt'
+                               value='' ng-model="vm.checkAll" ng-change="vm.changeChecked()">
+                        <button class='btn btn-download-multiple btn-narrow tt'
                                 data-original-title='Hide selected phrases from collaborators.'
-                                data-placement='top' data-toggle='tooltip' title='' type='button'>
+                                data-placement='top' data-toggle='tooltip' title='' type='button'
+                                ng-disabled="vm.disableButtons">
                             <i class='icon-eye-close'></i>
                             Hide
                         </button>
-                        <button class='btn btn-download-multiple btn-narrow disabled tt'
+                        <button class='btn btn-download-multiple btn-narrow tt'
                                 data-original-title='Make selected phrases visible to collaborators.'
-                                data-placement='top' data-toggle='tooltip' title='' type='button'>
+                                data-placement='top' data-toggle='tooltip' title='' type='button'
+                                ng-disabled="vm.disableButtons">
                             <i class='icon-eye-open'></i>
                             Visible
                         </button>
 <span class='selected-lang-no blue-txt hide'>
   Selected
-  <span class='selected-phrase-no-txt'></span>
+  <span class='selected-phrase-no-txt'>{{vm.numSelectedPhrases}}&nbsp;{{vm.unit}}</span>
 </span>
                     </div>
                 </div>
@@ -95,7 +97,8 @@
                 <li class='phrase-manage-list-item' ng-repeat="phrase in vm.filteredPhrases">
                     <div class='media-object'>
                         <div class='media pull-left'>
-                            <input class='checkbox-lang checkbox-count selectedLang' type='checkbox'>
+                            <input class='checkbox-lang checkbox-count selectedLang' type='checkbox'
+                                ng-checked="phrase.selected">
                         </div>
                         <div class='media-body'>
                             <div class='phrase-header'>

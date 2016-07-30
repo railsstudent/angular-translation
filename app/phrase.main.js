@@ -12,21 +12,6 @@ function config($routeProvider){
        controller: 'phrase.phraseController',
        controllerAs: 'vm'
      })
-    /*.when('/',{
-      templateUrl:'templates/home.html',
-      controller:'bookShelf.homeController',
-      controllerAs:'vm'
-    })
-    when('/addBook',{
-      templateUrl:'templates/addBook.html',
-      controller:'bookShelf.addBookController',
-      controllerAs:'vm'
-    })
-    .when('/archive', {
-      templateUrl:'templates/archive.html',
-      controller:'bookShelf.archiveController',
-      controllerAs:'vm'
-    })*/
     .otherwise({redirectTo:'/'});
 }
 
