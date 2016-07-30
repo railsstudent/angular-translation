@@ -115,37 +115,35 @@ class PhraseController {
 
       if (status == '') {
         this.filteredPhrases = this.phrases;
-    //    this.updateCount(this.visiblePhrases, this.hiddenPhrases);
       } else if (status == 'visible'){
         this.filteredPhrases = this.visiblePhrases;
-    //    this.updateCount(this.filteredPhrases, {});
       } else if (status == 'hidden') {
         this.filteredPhrases = this.hiddenPhrases;
-  //      this.updateCount({}, this.filteredPhrases);
       }
       console.log('In filterByStatus, filteredPhrases: ' + this.filteredPhrases);
     }
 
     searchByKeyword() {
-      this.filterByStatus();
-      let keyword = this.searchValue;
-      let tmpPhrases = this.filteredPhrases;
       let ref = this;
-      this.filteredPhrases = {};
-      let patt = new RegExp(keyword);
-      _.forEach(tmpPhrases, (o, k) => {
-        if (patt.test(o.id) || patt.test(o.context) || patt.test(o.value)) {
-            ref.filteredPhrases[k] = o;
-        } else {
-          // load note from local storage and compare
-          let note = STORAGE.get(ref).get('note-' + o.id);
-          if (note) {
-            if (patt.test(note)) {
-                ref.filteredPhrases[k] = o;
+      ref.filterByStatus();
+      if (ref.searchValue && ref.searchValue != '') {
+        let tmpPhrases = ref.filteredPhrases;
+         ref.filteredPhrases = {};
+         let patt = new RegExp(ref.searchValue);
+         _.forEach(tmpPhrases, (o, k) => {
+           if (patt.test(o.id) || patt.test(o.context) || patt.test(o.value)) {
+              ref.filteredPhrases[k] = o;
+           } else {
+              // load note from local storage and compare
+              let note = STORAGE.get(ref).get('note-' + o.id);
+              if (note) {
+                 if (patt.test(note)) {
+                   ref.filteredPhrases[k] = o;
+                 }
+              }
             }
-          }
-        }
-      });
+        });
+      }
     }
 }
 
