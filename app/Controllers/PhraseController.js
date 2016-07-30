@@ -12,34 +12,37 @@ class PhraseController {
 
       INIT.set(this, () => {
         let storage = STORAGE.get(this);
+        this.currentStatus = '';
         if (storage.get('phrases')) {
            this.phrases = storage.get('phrases');
-           this.filterByStatus('');
+           this.initPhrases();
+           this.printDebugStmt();
         } else {
 
           SERVICE.get(this).loadAll().then(
             (response) => {
               // return a list of phrases
               this.phrases = response.data;
-              this.filterByStatus('');
+              this.initPhrases();
               this.errMessage = '';
-              console.log(this.phrases);
-              console.log('visible phrase: ' + this.phraseObj.visibleCount);
-              console.log('hidden phrase: ' + this.phraseObj.hiddenCount);
+              this.printDebugStmt();
             }, (response) => {
                 this.phrases = {};
+                this.visiblePhrases = {};
+                this.hiddenPhrases = {};
+                this.updateCount(this.visiblePhrases, this.hiddenPhrases);
                 this.errMessage = 'Failed to load phrases. Status: ' +
                     response.status + ', error: ' + response.data;
             });
          }
       });
 
+      this.searchValue = '';
       this.filteredPhrases = {};
-      this.phraseObj =  {
-         visibleCount: 0,
-         hiddenCount: 0
+      this.phrasesObj = {
+        visibleCount : 0,
+        hiddenCount : 0
       };
-
       this.statusOptions = [
          { icon: 'icon-align-left', status: '', option: 'All Phrases' }
         ,{ icon: 'icon-eye-open', status: 'visible', option: 'Visible Phrases'  }
@@ -50,21 +53,58 @@ class PhraseController {
       INIT.get(this)();
     }
 
-    countPhrases() {
-      let ref = this;
-      this.phraseObj.visibleCount = this.phraseObj.hiddenCount = 0;
-      _.forEach(this.filteredPhrases, (o) => {
-          if (o.status == 'visible') {
-             o.icon = 'icon-eye-open';
-             ref.phraseObj.visibleCount = ref.phraseObj.visibleCount + 1;
-          } else {
-             o.icon = 'icon-eye-close';
-             ref.phraseObj.hiddenCount = ref.phraseObj.hiddenCount + 1;
-          }
+    initPhrases() {
+      this.assignPhraseIcon();
+      this.visiblePhrases = {};
+      this.hiddenPhrases = {};
+      this.constructPhrases('visible', this.visiblePhrases);
+      this.constructPhrases('hidden', this.hiddenPhrases);
+      this.updateCount(this.visiblePhrases, this.hiddenPhrases);
+      this.filterByStatus();
+    }
+
+    assignPhraseIcon() {
+      _.forEach(this.phrases, (o) => {
+        if (o.status == 'visible') {
+          o.icon = 'icon-eye-open';
+        } else if (o.status == 'hidden') {
+          o.icon = 'icon-eye-close';
+        }
       });
     }
 
-    filterByStatus(status) {
+    constructPhrases(status, filteredPhrases) {
+      _.forEach(this.phrases, (o, k) => {
+        if (o.status == status) {
+            filteredPhrases[k] = o;
+        }
+      });
+    }
+
+    updateCount(visiblePhrases, hiddenPhrases) {
+      this.phrasesObj.visibleCount = 0;
+      this.phrasesObj.hiddenCount = 0;
+      let ref = this;
+      _.forEach(visiblePhrases, (o) => {
+        ref.phrasesObj.visibleCount = ref.phrasesObj.visibleCount + 1;
+      });
+
+      _.forEach(hiddenPhrases, (o) => {
+        ref.phrasesObj.hiddenCount = ref.phrasesObj.hiddenCount + 1;
+      });
+    }
+
+    printDebugStmt() {
+      console.log(this.phrases);
+      console.log(this.visiblePhrases);
+      console.log(this.hiddenPhrases);
+      console.log('current status: ' + this.currentStatus);
+      console.log('visible phrase: ' + this.phrasesObj.visibleCount);
+      console.log('hidden phrase: ' + this.phrasesObj.hiddenCount);
+    }
+
+    filterByStatus() {
+      let status = this.currentStatus;
       console.log('status: ' + status);
       let opt = _.find(this.statusOptions, (o) => {
           return o.status == status;
@@ -75,18 +115,37 @@ class PhraseController {
 
       if (status == '') {
         this.filteredPhrases = this.phrases;
-      } else {
-        let ref = this;
-        this.filteredPhrases = [];
-        _.forEach(this.phrases, (o) => {
-            if (o.status == status) {
-              ref.filteredPhrases.push(o);
-            }
-        });
+    //    this.updateCount(this.visiblePhrases, this.hiddenPhrases);
+      } else if (status == 'visible'){
+        this.filteredPhrases = this.visiblePhrases;
+    //    this.updateCount(this.filteredPhrases, {});
+      } else if (status == 'hidden') {
+        this.filteredPhrases = this.hiddenPhrases;
+  //      this.updateCount({}, this.filteredPhrases);
       }
       console.log('In filterByStatus, filteredPhrases: ' + this.filteredPhrases);
-      console.log('In filterByStatus, phrases: ' + this.phrases);
-      this.countPhrases();
+    }
+
+    searchByKeyword() {
+      this.filterByStatus();
+      let keyword = this.searchValue;
+      let tmpPhrases = this.filteredPhrases;
+      let ref = this;
+      this.filteredPhrases = {};
+      let patt = new RegExp(keyword);
+      _.forEach(tmpPhrases, (o, k) => {
+        if (patt.test(o.id) || patt.test(o.context) || patt.test(o.value)) {
+            ref.filteredPhrases[k] = o;
+        } else {
+          // load note from local storage and compare
+          let note = STORAGE.get(ref).get('note-' + o.id);
+          if (note) {
+            if (patt.test(note)) {
+                ref.filteredPhrases[k] = o;
+            }
+          }
+        }
+      });
     }
 }
 

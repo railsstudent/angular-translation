@@ -1,25 +1,25 @@
 <div class='row-fluid project-nav-phrase-meta'>
     <ol class='list-unstyled project-nav-phrase-meta-list'>
         <li class='span4 active'>
-            <a href='/ui-mockups/projects/app/phrases'>
+            <a href='' ng-click="vm.currentStatus='visible';vm.filterByStatus()">
 <span class='highlight'>
-{{vm.phraseObj.visibleCount}}
+  {{vm.phrasesObj.visibleCount}}
 </span>
                 visible phrases
             </a>
         </li>
         <li class='span4'>
-            <a href='/ui-mockups/projects/app/phrases'>
+            <a href='' ng-click="vm.currentStatus = 'hidden';vm.filterByStatus()">
 <span class='highlight'>
-  {{vm.phraseObj.hiddenCount}}
+  {{vm.phrasesObj.hiddenCount}}
 </span>
                 hidden phrases
             </a>
         </li>
         <li class='span4'>
-            <a href='/ui-mockups/projects/app/phrases'>
+            <a href='' ng-click="vm.currentStatus = '';vm.filterByStatus()">
 <span class='highlight'>
-  {{vm.phraseObj.visibleCount + vm.phraseObj.hiddenCount}}
+  {{vm.phrasesObj.visibleCount + vm.phrasesObj.hiddenCount}}
 </span>
                 phrases in total
             </a>
@@ -33,12 +33,12 @@
             <div class='span12 content-box-header'>
                 <div class='row-fluid'>
                     <div class='span4 content-box-header-content fl'>
-                        <form>
+                        <form ng-submit="vm.searchByKeyword()">
                             <div class='input-prepend'>
                                 <span class='add-on'>
                                   <i class='icon-search'></i>
                                 </span>
-                                <input class='span12' placeholder='Find a phrase...' type='text'>
+                                <input class='span12' placeholder='Find a phrase...' type='text' ng-model="vm.searchValue">
                             </div>
                         </form>
                     </div>
@@ -51,7 +51,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
                               <li ng-repeat="x in vm.statusOptions">
-                                <a href="" ng-class="x.icon" ng-click="vm.filterByStatus(x.status)">&nbsp;&nbsp;{{x.option}}</a>
+                                <a href="" ng-class="x.icon" ng-click="vm.currentStatus = x.status; vm.filterByStatus()">&nbsp;&nbsp;{{x.option}}</a>
                               </li>
                             </ul>
                           </div>
@@ -104,7 +104,7 @@
                                         <span>ID:</span>{{phrase.id}}
                                     </div>
                                     <div class='context'>
-                                        <span>Context:</span>{{phrase.context}} {{phrase.icon}}
+                                        <span>Context:</span>{{phrase.context}}
                                     </div>
                                 </div>
                             </div>
