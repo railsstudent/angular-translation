@@ -143,6 +143,11 @@ class PhraseController {
               }
             }
         });
+
+        // sort phrase by keyid
+        ref.filteredPhrases = _.sortBy(ref.filteredPhrases, (o) => {
+          return o.id;
+        });
       }
     }
 }
