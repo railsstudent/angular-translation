@@ -1,0 +1,238 @@
+<div class='row-fluid project-nav-phrase-meta'>
+    <ol class='list-unstyled project-nav-phrase-meta-list'>
+        <li class='span4 active'>
+            <a href='/ui-mockups/projects/app/phrases'>
+<span class='highlight'>
+{{vm.phraseObj.visibleCount}}
+</span>
+                visible phrases
+            </a>
+        </li>
+        <li class='span4'>
+            <a href='/ui-mockups/projects/app/phrases'>
+<span class='highlight'>
+  {{vm.phraseObj.hiddenCount}}
+</span>
+                hidden phrases
+            </a>
+        </li>
+        <li class='span4'>
+            <a href='/ui-mockups/projects/app/phrases'>
+<span class='highlight'>
+  {{vm.phraseObj.visibleCount + vm.phraseObj.hiddenCount}}
+</span>
+                phrases in total
+            </a>
+        </li>
+    </ol>
+</div>
+
+<div class='row-fluid'>
+    <div class='span12 content-box bottom-no-radius bottom-no-border'>
+        <div class='row-fluid'>
+            <div class='span12 content-box-header'>
+                <div class='row-fluid'>
+                    <div class='span4 content-box-header-content fl'>
+                        <form>
+                            <div class='input-prepend'>
+                                <span class='add-on'>
+                                  <i class='icon-search'></i>
+                                </span>
+                                <input class='span12' placeholder='Find a phrase...' type='text'>
+                            </div>
+                        </form>
+                    </div>
+                    <div class='content-box-header-content fr'>
+                        <div class="dropdown">
+                          <div class='count-unit'>
+                              Filter:
+                            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{vm.selectedButtonText}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                              <li ng-repeat="x in vm.statusOptions">
+                                <a href="" ng-class="x.icon" ng-click="vm.filterByStatus(x.status)">&nbsp;&nbsp;{{x.option}}</a>
+                              </li>
+                            </ul>
+                          </div>
+                       </div>
+                </div>
+            </div>
+        </div>
+        <div class='row-fluid'>
+            <div class='span12 content-box-subheader bulk-actions-box bulk-actions-box-language boxSized'>
+                <div class='row-fluid'>
+                    <div class='span9'>
+                        <input class='selectAllLangs checkbox-lang tt' data-original-title='Select all'
+                               data-placement='top' data-toggle='tooltip' title='' type='checkbox'
+                               value=''>
+                        <button class='btn btn-download-multiple btn-narrow disabled tt'
+                                data-original-title='Hide selected phrases from collaborators.'
+                                data-placement='top' data-toggle='tooltip' title='' type='button'>
+                            <i class='icon-eye-close'></i>
+                            Hide
+                        </button>
+                        <button class='btn btn-download-multiple btn-narrow disabled tt'
+                                data-original-title='Make selected phrases visible to collaborators.'
+                                data-placement='top' data-toggle='tooltip' title='' type='button'>
+                            <i class='icon-eye-open'></i>
+                            Visible
+                        </button>
+<span class='selected-lang-no blue-txt hide'>
+  Selected
+  <span class='selected-phrase-no-txt'></span>
+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='row-fluid'>
+    <div class='span12'>
+        <div class='phrase-manage-list-container'>
+            <ul class='phrase-manage-list'>
+                <li class='phrase-manage-list-item' ng-repeat="phrase in vm.phrases">
+                    <div class='media-object'>
+                        <div class='media pull-left'>
+                            <input class='checkbox-lang checkbox-count selectedLang' type='checkbox'>
+                        </div>
+                        <div class='media-body'>
+                            <div class='phrase-header'>
+                                <div class='phrase-meta'>
+                                    <div class='id'>
+                                        <span>ID:</span>{{phrase.id}}
+                                    </div>
+                                    <div class='context'>
+                                        <span>Context:</span>{{phrase.context}} {{phrase.icon}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='phrase-body'>
+                                <p>{{phrase.value}}</p>
+                            </div>
+                            <div class='phrase-footer'>
+                                <div class='fr'>
+                                    <ul class='phrase-actions'>
+                                        <li>
+                                            <a class='tt'
+                                               data-original-title='Write notes to translators to help them understand the context of this phrase'
+                                               data-placement='top' data-toggle='modal'
+                                               href='.modal-note-to-translators' title=''>
+                                                Add notes
+                                            </a>
+                                        </li>
+                                        <li><i ng-class="phrase.icon"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+        <div aria-hidden='true' aria-labelledby='modal-note-to-translators'
+             class='modal-note-to-translators modal-phrase modal hide fade' role='dialog' tabindex='-1'>
+            <form>
+                <div class='modal-header'>
+                    <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                    <h3 id='myModalLabel'>Note to translators</h3>
+                </div>
+                <div class='modal-body'>
+                    <label class='hide' for='notes-to-translator'>Note to Translators</label>
+                    <textarea class='input-block-level' id='notes-to-translator' name='notes-to-translator'
+                              placeholder='Write a note to help translators understand the context of your phrase, for example, This phrase belongs to the welcome screen.'
+                              rows='3'></textarea>
+                </div>
+                <div class='modal-footer'>
+                    <button aria-hidden='true' class='btn' data-dismiss='modal'>Cancel</button>
+                    <button class='btn btn-primary'>Save</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div aria-hidden='true' aria-labelledby='modal-length-limit'
+             class='modal-length-limit modal-phrase modal hide fade' role='dialog' tabindex='-1'>
+            <form>
+                <div class='modal-header'>
+                    <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                    <h3 id='myModalLabel'>Length Limit</h3>
+                </div>
+                <div class='modal-body'>
+                    <div class='length-limit-box-option length-limit-box-absolute'>
+                        <div class='alert'>
+          <span>
+            Setting the maximum character to 0 means unlimited length.
+          </span>
+                        </div>
+                        <p>
+                            I want a maximum of
+                            <input class='span1' name='max-characters' placeholder='0' type='number'>
+                            characters,
+                        </p>
+                        <p class='last'>
+                            The translator
+                            <select name='absolute-hard-soft'>
+                                <option value='must not exceed that'>
+                                    must not exceed that
+                                </option>
+                                <option value='man exceed a little'>
+                                    can exceed a little
+                                </option>
+                            </select>
+                        </p>
+                        <a class='js-length-limit-box-absolute' href='#'>
+                            I don&rsquo;t know how long the length should be
+                        </a>
+                    </div>
+                    <div class='length-limit-box-option length-limit-box-relative hide'>
+                        <div class='alert'>
+          <span>
+            Setting the multiplier to 0 means unlimited length.
+          </span>
+                        </div>
+                        <p>
+                            This phrase is
+          <span class='label'>
+            1000
+          </span>
+                            characters, I want it roughly up to
+          <span class='input-prepend'>
+            <span class='add-on'>
+              x
+            </span>
+            <input class='span1' name='character-length-multiplier' placeholder='2' type='number'>
+          </span>
+                            longer, which is a maximum of
+          <span class='label'>
+            2000
+          </span>
+                            characters.
+                        </p>
+                        <p class='last'>
+                            The translator
+                            <select name='relative-hard-soft'>
+                                <option value='must not exceed that'>
+                                    must not exceed that
+                                </option>
+                                <option value='can exceed a little'>
+                                    can exceed a little
+                                </option>
+                            </select>
+                        </p>
+                        <a class='js-length-limit-box-relative' href='#'>
+                            Actually I want to set an absolute limit
+                        </a>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button aria-hidden='true' class='btn' data-dismiss='modal'>Cancel</button>
+                    <button class='btn btn-primary'>Save</button>
+                </div>
+            </form>
+        </div>

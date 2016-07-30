@@ -1,0 +1,58 @@
+{
+  "1": {
+    "id": 1,
+    "key": "menu_settings",
+    "context": "Main menu",
+    "value": "Settings",
+    "status": "visible"
+  },
+  "2": {
+    "id": 2,
+    "key": "application_warning_low_memory_msg",
+    "context": "Warning",
+    "value": "Insufficient memory on SD card, please remove files or applications before relaunching.",
+    "status": "visible"
+  },
+  "3": {
+    "id": 3,
+    "key": "application_error_network_not_available",
+    "context": "<error>",
+    "value": "Network unavailable, try again later",
+    "status": "visible"
+  },
+  "4": {
+    "id": 4,
+    "key": "message_error_connect_to_camera_failed",
+    "context": "error",
+    "value": "Unable to record - No connection to camera. Close any apps that may be using it.",
+    "status": "visible"
+  },
+  "5": {
+    "id": 5,
+    "key": "application_warning_waiting_to_connect_to_video_server",
+    "context": "",
+    "value": "Connecting to video server",
+    "status": "hidden"
+  },
+  "6": {
+    "id": 6,
+    "key": "privacy_agreement_link",
+    "context": "privacy > policy",
+    "value": "By continuing, you agree to our <u>Privacy Policy</u>",
+    "status": "visible"
+  },
+  "7": {
+    "id": 7,
+    "key": "application_menu_feedback_notification_bug_report_success_feedback",
+    "context": "",
+    "value": "Feedback sent, thanks!",
+    "status": "visible"
+  },
+  "8": {
+    "id": 8,
+    "key": "start_a_petition",
+    "context": "",
+    "value": "The %1$s emission given in grams per kilometre represent the combined values. In line with new European standards, the range shown displays the fuel consumption and %1$s values from the smallest to largest wheel size available on the selected model.",
+    "status": "visible"
+  }
+}
