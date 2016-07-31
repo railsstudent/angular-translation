@@ -1,9 +1,7 @@
-import { default as controllersModuleName } from './Controllers/bookShelf.controllers';
-import { default as servicesModuleName } from './bookShelf.services';
-import { default as directivesModuleName } from './bookShelf.directives';
-import { default as phraseModuleName } from './phrase.services';
+import { default as controllersModuleName } from './Controllers/phrase.controllers';
+import { default as servicesModuleName } from './phrase.services';
 
-var moduleName = 'bookShelf';
+var moduleName = 'phrase';
 
 function config($routeProvider){
   $routeProvider
@@ -17,8 +15,8 @@ function config($routeProvider){
 
 config.$inject = ['$routeProvider'];
 
-var app = angular.module(moduleName, ['ngRoute','ngMessages', 'LocalStorageModule', servicesModuleName, controllersModuleName,
-    directivesModuleName, phraseModuleName])
+var app = angular.module(moduleName, ['ngRoute','ngMessages', 'LocalStorageModule', 'tooltips'
+      , servicesModuleName, controllersModuleName])
   .config(config)
   // allow DI for use in controllers, unit tests
   .constant('_', window._)

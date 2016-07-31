@@ -54,5 +54,12 @@
     "context": "",
     "value": "The %1$s emission given in grams per kilometre represent the combined values. In line with new European standards, the range shown displays the fuel consumption and %1$s values from the smallest to largest wheel size available on the selected model.",
     "status": "visible"
+  },
+  "9": {
+    "id": 9,
+    "key": "write_an_angular_page",
+    "context": "angular spa",
+    "value": "Write an Angular SPA using MAC OSX in the weekend",
+    "status": "visible"
   }
 }

@@ -214,9 +214,9 @@ class PhraseController {
              }
           }
           o.selected = false;
-          ref.numSelectedPhrases = ref.numSelectedPhrases - 1;
       });
 
+      ref.numSelectedPhrases = 0;
       ref.checkAll = false;
       STORAGE.get(this).set('phrases', this.phrases);
       this.filterByStatus();

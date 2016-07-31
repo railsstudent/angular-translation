@@ -8,6 +8,7 @@
     <link href='./screen.css' media='screen, projection' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
     <link href='./animate.min.css' media='screen, projection' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="bower_components/tooltips-angular/dist/angular-tooltips.min.css" />
 </head>
 <body>
 
@@ -35,64 +36,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
+        <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-
+-->
 <!--
   <script src='/ui-mockups/assets/javascripts/skrollr.min.js'></script>
 -->
-
-
-<script>
-
-
-    $(document).ready(function() {
-
-        // Tooltip
-        $('.tt').tooltip({container: 'body'});
-        $('.tt-popover').popover({trigger: "hover"});
-        $('.click-popover').popover({trigger: "click"});
-
-        //Select Picker
-        $('.selectpicker').selectpicker();
-
-        // Disable btn
-        $('.js-disable-btn').click(function() {
-            $(this).addClass('disabled');
-        });
-
-        //Count Checked
-        var countChecked = function(selector) {
-
-            selector = typeof selector !== 'undefined' ? selector.toString() + ':checked' : '.checkbox-count:checked';
-
-            var n = $(selector).length;
-
-            $(".selected-phrase-no-txt").text(n + (n === 1 ? " phrase" : " phrases"));
-
-            return n;
-        };
-        countChecked();
-
-        $(".checkbox-count").on("change", function() {
-            var n = countChecked();
-            // Bulk action checkbox
-            if (n > 0) {
-                $('.btn-download-multiple').removeClass("disabled");
-            } else {
-                $('.btn-download-multiple').addClass("disabled");
-            }
-        });
-
-        //Select all
-        $('.selectAllLangs').on('change', function() {
-            $('.checkbox-lang.selectedLang').prop('checked', $(this).is(":checked")).change();
-        });
-
-
-    });
-
-
-</script>
 
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
@@ -100,6 +49,7 @@
 <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
 <script src="bower_components/lodash/dist/lodash.min.js"></script>
 <script src="bower_components/traceur/traceur.js"></script>
+<script src="bower_components/tooltips-angular/dist/angular-tooltips.min.js"></script>
 <script>
     traceur.options.experimental = true;
     new traceur.WebPageTranscoder(document.location.href).run();
