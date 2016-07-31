@@ -1,5 +1,5 @@
 {
-  "name": "BookShelf",
+  "name": "angular-phrase",
   "version": "0.1.0",
   "dependencies": {
     "jquery": "~2.1.0",
