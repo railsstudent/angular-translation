@@ -121,13 +121,11 @@
                                 <div class='fr'>
                                     <ul class='phrase-actions'>
                                         <li>
-                                            <a
-                                               data-toggle='modal'
-                                               href='.modal-note-to-translators'
-                                               title='Write notes to translators to help them understand the context of this phrase'
-                                               title-direction='top'>
-                                                Add notes
-                                            </a>
+                                          <a title='Write notes to translators to help them understand the context of this phrase'
+                                             title-direction='top'
+                                             ng-click="vm.showNote(phrase)">
+                                              Add notes
+                                          </a>
                                         </li>
                                         <li><i ng-class="phrase.icon"></i></li>
                                     </ul>
@@ -141,7 +139,7 @@
     </div>
 </div>
 
-
+        <!--
         <div aria-hidden='true' aria-labelledby='modal-note-to-translators'
              class='modal-note-to-translators modal-phrase modal hide fade' role='dialog' tabindex='-1'>
             <form>
@@ -153,15 +151,34 @@
                     <label class='hide' for='notes-to-translator'>Note to Translators</label>
                     <textarea class='input-block-level' id='notes-to-translator' name='notes-to-translator'
                               placeholder='Write a note to help translators understand the context of your phrase, for example, This phrase belongs to the welcome screen.'
-                              rows='3'></textarea>
+                              rows='3' ng-model="vm.selectedNote"></textarea>
                 </div>
                 <div class='modal-footer'>
                     <button aria-hidden='true' class='btn' data-dismiss='modal'>Cancel</button>
-                    <button class='btn btn-primary'>Save</button>
+                    <button class='btn btn-primary' ng-click="vm.saveNote()">Save</button>
                 </div>
             </form>
         </div>
+      -->
 
+        <script type="text/ng-template" id="saveNoteContent.html">
+              <form>
+                  <div class='modal-header'>
+                      <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                      <h3 id='myModalLabel'>Note to translators</h3>
+                  </div>
+                  <div class='modal-body'>
+                      <label class='hide' for='notes-to-translator'>Note to Translators</label>
+                      <textarea class='input-block-level' id='notes-to-translator' name='notes-to-translator'
+                                placeholder='Write a note to help translators understand the context of your phrase, for example, This phrase belongs to the welcome screen.'
+                                rows='3' ng-model="vm1.selectedNote"></textarea>
+                  </div>
+                  <div class='modal-footer'>
+                      <button aria-hidden='true' class='btn' ng-click="vm1.cancel()">Cancel</button>
+                      <button class='btn btn-primary' ng-click="vm1.saveNote()">Save</button>
+                  </div>
+              </form>
+        </script>
 
         <div aria-hidden='true' aria-labelledby='modal-length-limit'
              class='modal-length-limit modal-phrase modal hide fade' role='dialog' tabindex='-1'>

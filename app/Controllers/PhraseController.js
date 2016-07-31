@@ -2,13 +2,15 @@
 const INIT = new WeakMap();
 const SERVICE = new WeakMap();
 const STORAGE = new WeakMap();
+const MODAL = new WeakMap();
 
 class PhraseController {
 
-    constructor(phraseSvc, localStorageService) {
+    constructor(phraseSvc, localStorageService, $uibModal) {
       console.log('PhraseController called.');
       STORAGE.set(this, localStorageService);
       SERVICE.set(this, phraseSvc);
+      MODAL.set(this, $uibModal);
 
       INIT.set(this, () => {
         let storage = STORAGE.get(this);
@@ -24,8 +26,8 @@ class PhraseController {
               // return a list of phrases
               this.phrases = response.data;
               this.initPhrases();
-              this.errMessage = '';
               this.printDebugStmt();
+              this.errMessage = '';
             }, (response) => {
                 this.phrases = {};
                 this.visiblePhrases = {};
@@ -49,7 +51,8 @@ class PhraseController {
         ,{ icon: 'icon-eye-close', status: 'hidden', option: 'Hidden Phrases' }
       ];
       this.selectedButtonText = 'All Phrases';
-
+      this.selectedNote = '';
+      this.selectedNoteId = -1;
       INIT.get(this)();
     }
 
@@ -89,14 +92,8 @@ class PhraseController {
     updateCount(visiblePhrases, hiddenPhrases) {
       this.phrasesObj.visibleCount = 0;
       this.phrasesObj.hiddenCount = 0;
-      let ref = this;
-      _.forEach(visiblePhrases, (o) => {
-        ref.phrasesObj.visibleCount = ref.phrasesObj.visibleCount + 1;
-      });
-
-      _.forEach(hiddenPhrases, (o) => {
-        ref.phrasesObj.hiddenCount = ref.phrasesObj.hiddenCount + 1;
-      });
+      this.phrasesObj.visibleCount = _.size(visiblePhrases);
+      this.phrasesObj.hiddenCount = _.size(hiddenPhrases);
     }
 
     printDebugStmt() {
@@ -238,8 +235,41 @@ class PhraseController {
       STORAGE.get(this).set('phrases', this.phrases);
       this.filterByStatus();
     }
+
+    showNote(phrase) {
+      console.log('Phrase id: ' + phrase.id);
+      let note = STORAGE.get(this).get('note-' + phrase.id);
+      if (note) {
+      } else {
+         note = '';
+      }
+      console.log('note: ' + this.selectedNote);
+
+      let modal = MODAL.get(this);
+      let modalInstance = modal.open({
+            templateUrl: 'saveNoteContent.html',
+            controller: 'phrase.noteController',
+            controllerAs: 'vm1',
+            resolve: {
+              phrase: function () {
+                return phrase;
+              },
+              note: function() {
+                 return note;
+              }
+            }
+          });
+    }
+
+    saveNote() {
+       console.log('selected note id: ' + this.selectedNoteId);
+       console.log('selected: ' + this.selectedNote);
+
+       // save note in local storage
+       STORAGE.get(this).set('note-' + this.selectedNoteId, this.selectedNote);
+    }
 }
 
-PhraseController.$inject = ['phraseSvc', 'localStorageService'];
+PhraseController.$inject = ['phraseSvc', 'localStorageService', '$uibModal'];
 
 export default PhraseController;
