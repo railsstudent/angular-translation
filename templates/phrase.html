@@ -69,14 +69,16 @@
                         <button class='btn btn-download-multiple btn-narrow tt'
                                 data-original-title='Hide selected phrases from collaborators.'
                                 data-placement='top' data-toggle='tooltip' title='' type='button'
-                                ng-disabled="vm.disableButtons">
+                                ng-disabled="vm.disableButtons"
+                                ng-click="vm.updatePhraseStatus('hidden')">
                             <i class='icon-eye-close'></i>
                             Hide
                         </button>
                         <button class='btn btn-download-multiple btn-narrow tt'
                                 data-original-title='Make selected phrases visible to collaborators.'
                                 data-placement='top' data-toggle='tooltip' title='' type='button'
-                                ng-disabled="vm.disableButtons">
+                                ng-disabled="vm.disableButtons"
+                                ng-click="vm.updatePhraseStatus('visible')">
                             <i class='icon-eye-open'></i>
                             Visible
                         </button>
@@ -98,7 +100,8 @@
                     <div class='media-object'>
                         <div class='media pull-left'>
                             <input class='checkbox-lang checkbox-count selectedLang' type='checkbox'
-                                ng-checked="phrase.selected">
+                                ng-model="phrase.selected"
+                                ng-change="vm.selectPhrase(phrase.id)">
                         </div>
                         <div class='media-body'>
                             <div class='phrase-header'>

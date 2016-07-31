@@ -170,16 +170,56 @@ class PhraseController {
         ref.unit = (ref.numSelectedPhrases <= 1 ? 'phrase' : 'phrases');
     }
 
-    enableButtons() {
-      // count number of selected rows
+   selectPhrase(phraseId) {
       let ref = this;
-      let count = 0;
-      _.forEach(ref.filteredPhrases, (o) => {
-         if (o.selected == true) {
-           count = count + 1;
-         }
+      let selectedPhrase = _.find(ref.filteredPhrases, (o) => {
+                  return o.id == phraseId;
+              });
+      if (selectedPhrase) {
+          if (selectedPhrase.selected == true) {
+               // increment count
+               ref.numSelectedPhrases = ref.numSelectedPhrases + 1;
+          } else {
+              ref.numSelectedPhrases = ref.numSelectedPhrases - 1;
+          }
+          ref.disableButtons = (ref.numSelectedPhrases <= 0);
+          ref.unit = (ref.numSelectedPhrases <= 1 ? 'phrase' : 'phrases');
+          if (ref.numSelectedPhrases == (ref.phrasesObj.visibleCount + ref.phrasesObj.hiddenCount)) {
+            ref.checkAll = true;
+          } else {
+            ref.checkAll = false;
+          }
+      }
+    }
+
+    updatePhraseStatus(newStatus) {
+      let ref = this;
+      _.forEach(ref.filteredPhrases, (o, k) => {
+          if (o.selected == true && o.status != newStatus) {
+             o.status = newStatus;
+             // hidden -> visible
+             if (newStatus == 'visible') {
+               o.icon = 'icon-eye-open';
+               ref.phrasesObj.visibleCount = ref.phrasesObj.visibleCount + 1;
+               ref.phrasesObj.hiddenCount = ref.phrasesObj.hiddenCount - 1;
+               ref.visiblePhrases[k] = o;
+               delete ref.hiddenPhrases[k];
+             } else if (newStatus == 'hidden') {
+               // visible -> hidden
+               o.icon = 'icon-eye-close';
+               ref.phrasesObj.visibleCount = ref.phrasesObj.visibleCount - 1;
+               ref.phrasesObj.hiddenCount = ref.phrasesObj.hiddenCount + 1;
+               ref.hiddenPhrases[k] = o;
+               delete ref.visiblePhrases[k];
+             }
+          }
+          o.selected = false;
+          ref.numSelectedPhrases = ref.numSelectedPhrases - 1;
       });
-      ref.disableButtons = (count <= 0);
+
+      ref.checkAll = false;
+      STORAGE.get(this).set('phrases', this.phrases);
+      this.filterByStatus();
     }
 }
 
