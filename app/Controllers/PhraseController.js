@@ -184,7 +184,7 @@ class PhraseController {
           }
           ref.disableButtons = (ref.numSelectedPhrases <= 0);
           ref.unit = (ref.numSelectedPhrases <= 1 ? 'phrase' : 'phrases');
-          if (ref.numSelectedPhrases == (ref.phrasesObj.visibleCount + ref.phrasesObj.hiddenCount)) {
+          if (ref.numSelectedPhrases == _.size(ref.filteredPhrases)) {
             ref.checkAll = true;
           } else {
             ref.checkAll = false;
@@ -202,15 +202,31 @@ class PhraseController {
                o.icon = 'icon-eye-open';
                ref.phrasesObj.visibleCount = ref.phrasesObj.visibleCount + 1;
                ref.phrasesObj.hiddenCount = ref.phrasesObj.hiddenCount - 1;
-               ref.visiblePhrases[k] = o;
-               delete ref.hiddenPhrases[k];
+               ref.visiblePhrases[o.id] = o;
+               let index = -1;
+               _.forEach(ref.hiddenPhrases, (n, k) => {
+                 if (n.id == o.id) {
+                   index = k;
+                   return index;
+                 }
+               });
+               console.log('property of hidddenPhrases: ' + index);
+               delete ref.hiddenPhrases[index];
              } else if (newStatus == 'hidden') {
                // visible -> hidden
                o.icon = 'icon-eye-close';
                ref.phrasesObj.visibleCount = ref.phrasesObj.visibleCount - 1;
                ref.phrasesObj.hiddenCount = ref.phrasesObj.hiddenCount + 1;
-               ref.hiddenPhrases[k] = o;
-               delete ref.visiblePhrases[k];
+               ref.hiddenPhrases[o.id] = o;
+               let index = -1;
+               _.forEach(ref.visiblePhrases, (n, k) => {
+                 if (n.id == o.id) {
+                   index = k;
+                   return index;
+                 }
+               });
+               console.log('property of visiblePhrases: ' + index);
+               delete ref.visiblePhrases[index];
              }
           }
           o.selected = false;
@@ -218,6 +234,7 @@ class PhraseController {
 
       ref.numSelectedPhrases = 0;
       ref.checkAll = false;
+      ref.disableButtons = true;
       STORAGE.get(this).set('phrases', this.phrases);
       this.filterByStatus();
     }
