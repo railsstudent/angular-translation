@@ -2,25 +2,25 @@
     <ol class='list-unstyled project-nav-phrase-meta-list'>
         <li class='span4 active'>
             <a href='' ng-click="vm.currentStatus='visible';vm.filterByStatus()">
-<span class='highlight'>
-  {{vm.phrasesObj.visibleCount}}
-</span>
+                <span class='highlight'>
+                  {{vm.phrasesObj.visibleCount}}
+                </span>
                 visible phrases
             </a>
         </li>
         <li class='span4'>
             <a href='' ng-click="vm.currentStatus = 'hidden';vm.filterByStatus()">
-<span class='highlight'>
-  {{vm.phrasesObj.hiddenCount}}
-</span>
+                <span class='highlight'>
+                  {{vm.phrasesObj.hiddenCount}}
+                </span>
                 hidden phrases
             </a>
         </li>
         <li class='span4'>
             <a href='' ng-click="vm.currentStatus = '';vm.filterByStatus()">
-<span class='highlight'>
-  {{vm.phrasesObj.visibleCount + vm.phrasesObj.hiddenCount}}
-</span>
+                <span class='highlight'>
+                  {{vm.phrasesObj.visibleCount + vm.phrasesObj.hiddenCount}}
+                </span>
                 phrases in total
             </a>
         </li>
@@ -63,28 +63,29 @@
             <div class='span12 content-box-subheader bulk-actions-box bulk-actions-box-language boxSized'>
                 <div class='row-fluid'>
                     <div class='span9'>
-                        <input data-placement='top' data-toggle='tooltip' title='Select all' type='checkbox'
-                               value='' ng-model="vm.checkAll" ng-change="vm.changeChecked()">
+                        <input title='Select all' type='checkbox'
+                               value='' ng-model="vm.checkAll" ng-change="vm.changeChecked()"
+                               title-direction='top'>
                         <button class='btn btn-download-multiple btn-narrow tt'
-                                data-placement='top' data-toggle='tooltip'
-                                title='Hide selected phrases from collaborators.' type='button'
+                                title='Hide selected phrases from collaborators.'
+                                title-direction='top' type='button'
                                 ng-disabled="vm.disableButtons"
                                 ng-click="vm.updatePhraseStatus('hidden')">
                             <i class='icon-eye-close'></i>
                             Hide
                         </button>
                         <button class='btn btn-download-multiple btn-narrow tt'
-                                data-placement='top' data-toggle='tooltip'
-                                title='Make selected phrases visible to collaborators.' type='button'
+                                title='Make selected phrases visible to collaborators.'
+                                title-direction='top' type='button'
                                 ng-disabled="vm.disableButtons"
                                 ng-click="vm.updatePhraseStatus('visible')">
                             <i class='icon-eye-open'></i>
                             Visible
                         </button>
-<span class='selected-lang-no blue-txt hide'>
-  Selected
-  <span class='selected-phrase-no-txt'>{{vm.numSelectedPhrases}}&nbsp;{{vm.unit}}</span>
-</span>
+                        <span class='selected-lang-no blue-txt hide'>
+                          Selected
+                          <span class='selected-phrase-no-txt'>{{vm.numSelectedPhrases}}&nbsp;{{vm.unit}}</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -121,9 +122,10 @@
                                     <ul class='phrase-actions'>
                                         <li>
                                             <a
-                                               data-placement='top' data-toggle='modal'
+                                               data-toggle='modal'
                                                href='.modal-note-to-translators'
-                                               title='Write notes to translators to help them understand the context of this phrase'>
+                                               title='Write notes to translators to help them understand the context of this phrase'
+                                               title-direction='top'>
                                                 Add notes
                                             </a>
                                         </li>
