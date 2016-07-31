@@ -15,8 +15,8 @@ function config($routeProvider){
 
 config.$inject = ['$routeProvider'];
 
-var app = angular.module(moduleName, ['ngRoute','ngMessages', 'LocalStorageModule', 'tooltips'
-      , 'ui.bootstrap', servicesModuleName, controllersModuleName])
+var app = angular.module(moduleName, ['ngRoute', 'LocalStorageModule',
+      'tooltips', 'ui.bootstrap', servicesModuleName, controllersModuleName])
   .config(config)
   // allow DI for use in controllers, unit tests
   .constant('_', window._)
