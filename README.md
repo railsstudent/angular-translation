@@ -5,9 +5,9 @@
 1. Angular 1.5.x
 2. Node 5.12.0
 3. Browser tested: Chrome 51
-
 4. Framework:
 ..* Express 4.10.6
+5. Traceur to transcompile ES6 code to ES5 code and run in browser
 
 ###Libraries used:
 1. Lodash:  collection utility
