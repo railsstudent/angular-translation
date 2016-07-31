@@ -250,6 +250,7 @@ class PhraseController {
             templateUrl: 'saveNoteContent.html',
             controller: 'phrase.noteController',
             controllerAs: 'vm1',
+            size: 'lg',
             resolve: {
               phrase: function () {
                 return phrase;
